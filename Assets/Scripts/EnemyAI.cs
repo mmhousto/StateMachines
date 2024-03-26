@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 
 public class EnemyAI : MonoBehaviour
 {
+    // CAMEL CASE - Naming convention for variables
     public Transform target;
     public Transform patrolPoint;
     private NavMeshAgent ai;
@@ -89,6 +90,8 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
     }
+
+
 
     IEnumerator SwitchToPatrol()
     {
