@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -11,7 +8,7 @@ public class EnemyAI : MonoBehaviour
     public Transform target;
     public Transform patrolPoint;
     private NavMeshAgent ai;
-    public enum EnemyState { Idle, Patrol, Chase, Attack}
+    public enum EnemyState { Idle, Patrol, Chase, Attack }
     public EnemyState enemyState;
     private Animator anim;
     private float distanceToTarget;
@@ -51,25 +48,10 @@ public class EnemyAI : MonoBehaviour
 
                 if (distanceToPatrolPoint > 2)
                 {
-                    if (ai.isOnOffMeshLink)
-                    {
-                        ai.speed = 1f;
-
-                        if(isJumping == false)
-                        {
-                            isJumping = true;
-                            anim.SetTrigger("JumpDown");
-                            StartCoroutine(WaitTilJumped());
-                        }
-                        
-                    }
-                    else if (isJumping == false)
-                    {
-                        ai.speed = 3.5f;
                         SwitchState(1);
                         ai.SetDestination(patrolPoint.position);
-                    }
-                }else
+                }
+                else
                 {
                     SwitchState(0);
                 }
@@ -81,15 +63,17 @@ public class EnemyAI : MonoBehaviour
 
                 break;
             case EnemyState.Chase:
-                SwitchState(2);
+                SwitchState(2); //Switches to Run animation
 
-                ai.SetDestination(target.position);
-                if (ai.isOnNavMesh) anim.SetTrigger("JumpDown");
+                ai.SetDestination(target.position); // Follow Target/Player
 
+                // If close enough to attack, switch to attack state
                 if (distanceToTarget <= 5)
                 {
                     enemyState = EnemyState.Attack;
-                }else if (distanceToTarget > 15)
+                }
+                // IF too far away, switch to IDLE
+                else if (distanceToTarget > 15)
                 {
                     enemyState = EnemyState.Idle;
                 }
@@ -101,7 +85,8 @@ public class EnemyAI : MonoBehaviour
                 if (distanceToTarget > 5 && distanceToTarget <= 15)
                 {
                     enemyState = EnemyState.Chase;
-                }else if(distanceToTarget > 15)
+                }
+                else if (distanceToTarget > 15)
                     enemyState = EnemyState.Idle;
 
                 break;
