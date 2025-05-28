@@ -96,11 +96,11 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    IEnumerator WaitTilJumped()
+    /*IEnumerator WaitTilJumped()
     {
         yield return new WaitForSeconds(2.3f);
         isJumping = false;
-    }
+    }*/
 
     IEnumerator SwitchToPatrol()
     {
